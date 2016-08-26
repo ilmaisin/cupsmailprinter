@@ -1,0 +1,172 @@
+#!/usr/bin/python
+
+#
+# $Id: mailto,v 1.6 2011/01/07 09:46:02 gurubert Exp $
+#
+
+#
+# This is a mailto backend for CUPS (www.cups.org)
+#
+# (C) 2011 Robert Sander <robert.sander@epigenomics.com>
+#
+# Released under GPL
+#
+# NO WARRANTY AT ALL
+#
+
+import sys, os, tempfile, mimetypes, syslog
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.header import Header
+
+log = "\nLog:\n"
+
+file = "/usr/bin/file"
+sendmail = "/usr/sbin/sendmail"
+
+def writelog(message):
+    global log
+
+    syslog.syslog(syslog.LOG_INFO, message)
+    sys.stderr.write(message)
+
+    if log:
+        log += message
+
+def guess_type(datafile):
+    type, enc = mimetypes.guess_type(datafile)
+    if (not type) or (type == 'application/octet-stream'):
+        enc = None
+        try:
+            type = os.popen("%s -b --mime-type %s 2> /dev/null" % (file, datafile)).read().rstrip()
+            if type == "" or type == "data":
+                type = "application/octet-stream"
+        except:
+            type = "application/octet-stream"
+    return (type, enc)
+
+def guess_extension(mimetype):
+    return(mimetypes.guess_extension(mimetype))
+
+argc = len(sys.argv)
+
+syslog.openlog('mailto', syslog.LOG_PID, syslog.LOG_LPR)
+
+if argc == 1:
+    print "network mailto \"Unknown\" \"SMTP\""
+    syslog.syslog(syslog.LOG_INFO, "network mailto \"Unknown\" \"SMTP\"")
+    syslog.closelog()
+    sys.exit(0)
+
+writelog("INFO: mailto argv[%s] = '%s'\n" % (argc, "', '".join(sys.argv[1:])))
+
+if argc < 6 or argc > 7:
+    writelog("ERROR: %s job-id user title copies options [file]\n" % sys.argv[0])
+    sys.exit(1)
+
+jobid = sys.argv[1]
+user = sys.argv[2]
+title = sys.argv[3]
+if title[:7] == "smbprn.":
+    title = title[16:]
+opts = sys.argv[5].split(" ")
+
+if argc == 7:
+    writelog("INFO: file is %s\n" % sys.argv[6])
+    infilename = sys.argv[6]
+else:
+    infilename = tempfile.mktemp(".mailto")
+    try:
+        infile = open(infilename, "w")
+    except:
+        writelog("ERROR: unable to create tmp file %s\n" % infilename)
+        sys.exit(1)
+    writelog("INFO: file is stdin\n")
+    try:
+        infile.write(sys.stdin.read())
+    except:
+        writelog("ERROR: unable to copy into tmpfile\n")
+        sys.exit(1)
+    infile.close()
+    writelog("INFO: copied stdin to %s\n" % infilename)
+
+infile = open(infilename, "rb")
+
+mailto = None
+mailfrom = None
+for opt in opts:
+    if opt[:7] == "mailto=":
+        mailto = opt[7:]
+        writelog("INFO: mailto %s\n" % mailto)
+    if opt[:9] == "mailfrom=":
+        mailfrom = opt[9:]
+        writelog("INFO: mailfrom %s\n" % mailfrom)
+if not mailfrom:
+    if user:
+    	mailfrom = user
+    else:
+    	mailfrom = "lp"
+if not mailto:
+    if user:
+        mailto = user
+    else:
+        mailto = mailfrom
+
+msg = MIMEMultipart()
+
+# Essential lines to put into the header of a MIME mail.
+msg["From"] = mailfrom
+msg["To"] = mailto
+msg["Subject"] = Header("%s printed as PDF" % title)
+if mailto != user and mailfrom != user:
+    msg["X-CUPS-mailto-started-by"] = user
+
+msg.preamble = "This is an automatically generated email.\n"
+
+type, enc = guess_type(infilename)
+ext = guess_extension(type)
+if not ext:
+    ext = ""
+maintype, subtype = type.split('/', 1)
+
+writelog("INFO: type='%s' enc='%s' ext='%s'\n" % (type, enc, ext))
+
+txt = MIMEText("You printed %s with jobid %s\n%s" % (title, jobid, log))
+
+msg.attach(txt)
+
+if maintype == 'application':
+    from email.mime.application import MIMEApplication
+    att = MIMEApplication(infile.read(), _subtype=subtype)
+elif maintype == 'text':
+    att = MIMEText(infile.read(), _subtype=subtype)
+elif maintype == 'image':
+    from email.mime.image import MIMEImage
+    att = MIMEImage(infile.read(), _subtype=subtype)
+elif maintype == 'audio':
+    from email.mime.audio import MIMEAudio
+    att = MIMEAudio(infile.read(), _subtype=subtype)
+else:
+    from email import encoders
+    from email.mime.base import MIMEBase
+    att = MIMEBase(maintype, subtype)
+    att.set_payload(infile.read())
+    encoders.encode_base64(att)
+
+att.add_header('Content-Disposition', 'attachment', filename="%s%s" % (title, ext))
+
+msg.attach(att)
+
+os.popen("%s -t -f%s" % (sendmail, mailfrom), "w").write(msg.as_string())
+
+writelog("INFO: sent email to %s\n" % mailto)
+
+infile.close()
+
+if argc == 6:
+    os.unlink(infilename)
+
+writelog("INFO: Ready to print.\n")
+
+syslog.closelog()
+sys.exit(0)
