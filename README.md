@@ -3,4 +3,4 @@ This is an upcoming email printer driver for CUPS. It is a derivative work of th
 
 ## To do
 * Troubleshoot and modify the ppd file to fix the compatibility problem with the current ps2pdf filter that causes blank borders in pages.
-* Add mailfrom and mailto job options to the ppd file to reduce the need of manual fiddling.
+* Replace the mailfrom and mailto job options with capability to parse email addresses from printer URIs like `mailto:/from@address.invalid?to@address.invalid`
