@@ -1,6 +1,6 @@
 *PPD-Adobe: "4.3"
 *%
-*% "$Id: pdf.ppd,v 1.3 2003/01/02 23:32:42 gurubert Exp $"
+*% "$Id: pdf.ppd,v 0.1 2016/27/08 14:32:00 ilmaisin Exp $"
 *%
 *%   Printer description for a printer that uses the pstopdf filter
 *%
@@ -66,19 +66,20 @@
 *CloseUI: *PageRegion
 
 *DefaultImageableArea: A4 
-*ImageableArea Letter/US Letter:	"18 36 594 756"
-*ImageableArea Legal/US Legal:		"18 36 594 972"
-*ImageableArea Executive/US Executive:	"18 36 504 684"
-*ImageableArea Tabloid/US Tabloid:	"18 36 774 1188"
-*ImageableArea A3/A3:			"18 36 824 1155"
-*ImageableArea A4/A4:			"18 36 577 806"
-*ImageableArea A5/A5:			"18 36 403 559"
-*ImageableArea B5/JIS B5:		"18 36 498 693"
-*ImageableArea EnvISOB5/B5 (ISO):	"18 36 463 673"
-*ImageableArea Env10/Com-10:		"18 36 279 648"
-*ImageableArea EnvC5/EnvC5:		"18 36 441 613"
-*ImageableArea EnvDL/EnvDL:		"18 36 294 588"
-*ImageableArea EnvMonarch/Envelope Monarch: "18 36 261 504"
+*ImageableArea Letter/US Letter:	"0 0 612 792"
+*ImageableArea Legal/US Legal:		"0 0 612 1008"
+*ImageableArea Executive/US Executive:	"0 0 522 756"
+*ImageableArea Tabloid/US Tabloid:	"0 0 792 1224"
+*ImageableArea A3/A3:			"0 0 842 1191"
+*ImageableArea A4/A4:			"0 0 595 842"
+*ImageableArea A5/A5:			"0 0 421 595"
+*ImageableArea B5/B5 (JIS):		"0 0 516 729"
+*ImageableArea EnvISOB5/Envelope B5:	"0 0 499 709"
+*ImageableArea Env10/Envelope #10:	"0 0 297 684"
+*ImageableArea EnvC5/Envelope C5:	"0 0 459 649"
+*ImageableArea EnvDL/Envelope DL:	"0 0 312 624"
+*ImageableArea EnvMonarch/Envelope Monarch:	"0 0 279 540"
+
 
 *DefaultPaperDimension: A4
 *PaperDimension Letter/US Letter:	"612 792"
@@ -89,7 +90,7 @@
 *PaperDimension A4/A4:			"595 842"
 *PaperDimension A5/A5:			"421 595"
 *PaperDimension B5/B5 (JIS):		"516 729"
-*PaperDimension EnvISOB5/Envelope B5:	"499 709"
+*PaperDimension EnvISOB5/Envelope B5: "499 709"
 *PaperDimension Env10/Envelope #10:	"297 684"
 *PaperDimension EnvC5/Envelope C5:	"459 649"
 *PaperDimension EnvDL/Envelope DL:	"312 624"
