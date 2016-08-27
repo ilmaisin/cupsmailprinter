@@ -7,11 +7,11 @@
 *%   This file is based on the laserjet.ppd that comes with CUPS.
 *%
 *FormatVersion:	"4.3"
-*FileVersion:	"1.1"
+*FileVersion:	"0.1"
 *LanguageVersion: English 
 *LanguageEncoding: ISOLatin1
 *PCFileName:	"PDF.PPD"
-*Manufacturer:	"Robert Sander <robert.sander@epigenomics.com>"
+*Manufacturer:	"Iiro Laiho <ilmaisin@openmailbox.org>"
 *Product:	"(CUPS v1.1)"
 *cupsVersion:	1.1
 *cupsManualCopies: False
