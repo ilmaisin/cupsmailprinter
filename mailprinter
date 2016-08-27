@@ -1,12 +1,13 @@
 #!/usr/bin/python
 
 #
-# $Id: mailto,v 1.6 2011/01/07 09:46:02 gurubert Exp $
+# $Id: mailprinter,v 0.1 2016/08/27 09:46:02 ilmaisin Exp $
 #
 
 #
 # This is a mailto backend for CUPS (www.cups.org)
 #
+# (C) 2016 Iiro Laiho <ilmaisin@openmailbox.org>
 # (C) 2011 Robert Sander <robert.sander@epigenomics.com>
 #
 # Released under GPL
@@ -50,15 +51,15 @@ def guess_extension(mimetype):
 
 argc = len(sys.argv)
 
-syslog.openlog('mailto', syslog.LOG_PID, syslog.LOG_LPR)
+syslog.openlog('mailprinter', syslog.LOG_PID, syslog.LOG_LPR)
 
 if argc == 1:
-    print "network mailto \"Unknown\" \"SMTP\""
-    syslog.syslog(syslog.LOG_INFO, "network mailto \"Unknown\" \"SMTP\"")
+    print "network mailprinter:/ \"Unknown\" \"Send as email\""
+    syslog.syslog(syslog.LOG_INFO, "network mailprinter:/ \"Unknown\" \"Send as email\"")
     syslog.closelog()
     sys.exit(0)
 
-writelog("INFO: mailto argv[%s] = '%s'\n" % (argc, "', '".join(sys.argv[1:])))
+writelog("INFO: mailprinter argv[%s] = '%s'\n" % (argc, "', '".join(sys.argv[1:])))
 
 if argc < 6 or argc > 7:
     writelog("ERROR: %s job-id user title copies options [file]\n" % sys.argv[0])
@@ -75,7 +76,7 @@ if argc == 7:
     writelog("INFO: file is %s\n" % sys.argv[6])
     infilename = sys.argv[6]
 else:
-    infilename = tempfile.mktemp(".mailto")
+    infilename = tempfile.mktemp(".mailprinter")
     try:
         infile = open(infilename, "w")
     except:
