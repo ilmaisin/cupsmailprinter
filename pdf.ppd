@@ -16,9 +16,9 @@
 *cupsVersion:	1.1
 *cupsManualCopies: False
 *cupsFilter:	"application/vnd.cups-postscript 33 pstopdf"
-*ModelName:     "PDF Converter"
-*ShortNickName: "PDF Converter"
-*NickName:      "PDF Converter CUPS v1.1"
+*ModelName:     "cupsmailprinter PDF converter"
+*ShortNickName: "Email as PDF"
+*NickName:      "cupsmailprinter PDF converter CUPS v1.1"
 *PSVersion:	"(3010.000) 550"
 *LanguageLevel:	"3"
 *ColorDevice:	True

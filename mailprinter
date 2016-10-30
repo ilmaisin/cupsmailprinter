@@ -54,8 +54,8 @@ argc = len(sys.argv)
 syslog.openlog('mailprinter', syslog.LOG_PID, syslog.LOG_LPR)
 
 if argc == 1:
-    print "network mailprinter:/ \"Unknown\" \"Send as email\""
-    syslog.syslog(syslog.LOG_INFO, "network mailprinter:/ \"Unknown\" \"Send as email\"")
+    print "network mailprinter:/ \"cupsmailprinter PDF converter\" \"Send as email\""
+    syslog.syslog(syslog.LOG_INFO, "network mailprinter:/ \"cupsmailprinter PDF converter\" \"Send as email\"")
     syslog.closelog()
     sys.exit(0)
 
