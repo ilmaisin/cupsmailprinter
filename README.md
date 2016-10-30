@@ -4,3 +4,4 @@ This is an upcoming email printer driver for CUPS. It is a derivative work of th
 ## To do
 * <del>Troubleshoot and modify the ppd file to fix the compatibility problem with the current ps2pdf filter that causes blank borders in pages.</del> DONE
 * Replace the mailfrom and mailto job options with printer options accessible from CUPS Web UI, see issue [#1](https://github.com/ilmaisin/cupsmailprinter/issues/1).
+* The pstopdf filter is obsolete and apparently removed on the lastest CUPS versions, use a more modern filter instead
