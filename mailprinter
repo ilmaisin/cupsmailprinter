@@ -156,13 +156,13 @@ else:
 
 att.add_header('Content-Disposition', 'attachment', filename="%s%s" % (title, ext))
 
+infile.close()
+
 msg.attach(att)
 
 os.popen("%s -t -f%s" % (sendmail, mailfrom), "w").write(msg.as_string())
 
 writelog("INFO: sent email to %s\n" % mailto)
-
-infile.close()
 
 if argc == 6:
     os.unlink(infilename)
