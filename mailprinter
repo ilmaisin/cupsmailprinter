@@ -54,8 +54,8 @@ argc = len(sys.argv)
 syslog.openlog('mailprinter', syslog.LOG_PID, syslog.LOG_LPR)
 
 if argc == 1:
-    print "network mailprinter:/ \"Unknown\" \"Send as email\""
-    syslog.syslog(syslog.LOG_INFO, "network mailprinter:/ \"Unknown\" \"Send as email\"")
+    print "network mailprinter:/ \"cupsmailprinter PDF converter\" \"Send as email\""
+    syslog.syslog(syslog.LOG_INFO, "network mailprinter:/ \"cupsmailprinter PDF converter\" \"Send as email\"")
     syslog.closelog()
     sys.exit(0)
 
@@ -156,13 +156,13 @@ else:
 
 att.add_header('Content-Disposition', 'attachment', filename="%s%s" % (title, ext))
 
+infile.close()
+
 msg.attach(att)
 
 os.popen("%s -t -f%s" % (sendmail, mailfrom), "w").write(msg.as_string())
 
 writelog("INFO: sent email to %s\n" % mailto)
-
-infile.close()
 
 if argc == 6:
     os.unlink(infilename)
