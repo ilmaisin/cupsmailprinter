@@ -11,8 +11,8 @@
 *LanguageVersion: English 
 *LanguageEncoding: ISOLatin1
 *PCFileName:	"PDF.PPD"
-*Manufacturer:	"Iiro Laiho <ilmaisin@openmailbox.org>"
-*Product:	"(CUPS v1.1)"
+*Manufacturer:	"ilmaisin"
+*Product:	"(cupsmailprinter PDF converter)"
 *cupsVersion:	1.1
 *cupsManualCopies: False
 *cupsFilter:	"application/vnd.cups-pdf 0 -"
