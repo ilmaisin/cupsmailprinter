@@ -118,7 +118,7 @@ msg = MIMEMultipart()
 # Essential lines to put into the header of a MIME mail.
 msg["From"] = mailfrom
 msg["To"] = mailto
-msg["Subject"] = Header("%s printed as PDF" % title)
+msg["Subject"] = Header("%s printed as PDF" % title, "utf-8")
 if mailto != user and mailfrom != user:
     msg["X-CUPS-mailto-started-by"] = user
 
